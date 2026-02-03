@@ -31,6 +31,7 @@ int main()
         if (process == "RR")
         {
             cin >> q;
+            rr(q, xlines);
         }
     }
     return 0;
