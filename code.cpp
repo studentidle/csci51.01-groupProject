@@ -1,6 +1,26 @@
 #include <iostream>;
 using namespace std;
 
+struct Process {
+    int id;                 // Process number (1, 2, 3, etc.)
+    int arrivalTime;        // When process arrives
+    int burstTime;          // How long it needs to run
+    int remainingTime;      // How much time is left
+    int priority;           // Low, Medium, High Priority
+    
+    int waiting;
+    int turnaround;
+    int response;
+    bool hasStarted;
+};
+
+struct GanttBlock {
+    int startTime;
+    int processId;
+    int duration;
+    bool isComplete;
+};
+
 int main()
 {
     // cout << "Hello, World!" << endl;
