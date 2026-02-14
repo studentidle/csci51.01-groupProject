@@ -1,4 +1,6 @@
 #include <iostream>;
+#include <string>;
+
 using namespace std;
 
 struct Process {
@@ -21,8 +23,78 @@ struct GanttBlock {
     bool isComplete;
 };
 
-int main()
+int currentTest;
+
+void printResults(string algo, GanttBlock* gantt, int ganttSize, Process* procs, int numProcs, int totalTime){
+    cout << currentTest << " " << algo << endl;
+
+    cout << "Total time elapsed: " << totalTime << "ns" << endl;
+    cout << "Total CPU burst time: " << totalBurst << "ns" << endl;
+    cout << "CPU Utilization: " << cpuUtil << "%" << endl;
+    cout << "Throughput: " << throughput << " processes/ns" << endl;
+
+    cout << "Waiting times:" << endl;
+
+    cout << "Average waiting time: " << avgWait << "ns" << endl;
+
+    cout << "Turnaround times:" << endl;
+
+    cout << "Response times:" << endl;
+
+    cout << "Average response time: " << avgResp << "ns" << endl;
+}
+
+int fcfs(int xlines)
 {
+    for (int x = 0; x < xlines; x++)
+    {
+        int arrival, burst, nice;
+        cin >> arrival >> burst >> nice;
+    }
+    return 0;
+}
+
+int sjf(int xlines)
+{
+    for (int x = 0; x < xlines; x++)
+    {
+        int arrival, burst, nice;
+        cin >> arrival >> burst >> nice;
+    }
+    return 0;
+}
+
+int srtf(int xlines)
+{
+    for (int x = 0; x < xlines; x++)
+    {
+        int arrival, burst, nice;
+        cin >> arrival >> burst >> nice;
+    }
+    return 0;
+}
+
+int p(int xlines)
+{
+    for (int x = 0; x < xlines; x++)
+    {
+        int arrival, burst, nice;
+        cin >> arrival >> burst >> nice;
+    }
+    return 0;
+}
+
+int rr(int q, int xlines)
+{
+    for (int x = 0; x < xlines; x++)
+    {
+        int arrival, burst, nice;
+        cin >> arrival >> burst >> nice;
+    }
+    return 0;
+}
+
+int main(){
     // cout << "Hello, World!" << endl;
     int tests;
     cin >> tests;
@@ -57,49 +129,3 @@ int main()
     return 0;
 }
 
-int fcfs(int xlines)
-{
-    for (int x = 0; x < xlines; x++)
-    {
-        int arrival, burst, nice;
-        cin >> arrival >> burst >> nice;
-    }
-    return 0;
-}
-
-int sjf(int xlines)
-{
-    for (int x = 0; x < xlines; x++)
-    {
-        int arrival, burst, nice;
-        cin >> arrival >> burst >> nice;
-    }
-    return 0;
-}
-int srtf(int xlines)
-{
-    for (int x = 0; x < xlines; x++)
-    {
-        int arrival, burst, nice;
-        cin >> arrival >> burst >> nice;
-    }
-    return 0;
-}
-int p(int xlines)
-{
-    for (int x = 0; x < xlines; x++)
-    {
-        int arrival, burst, nice;
-        cin >> arrival >> burst >> nice;
-    }
-    return 0;
-}
-int rr(int q, int xlines)
-{
-    for (int x = 0; x < xlines; x++)
-    {
-        int arrival, burst, nice;
-        cin >> arrival >> burst >> nice;
-    }
-    return 0;
-}
