@@ -25,6 +25,10 @@ def rr(q, xlines):
     ready_queue = deque()
     past_queue = deque()
 
+    # tracking stuff
+    total_cpu_burst_time = 0
+    total_processes = len(job_queue);
+    #
 
     p = None
     while len(ready_queue) > 0 or len(job_queue) > 0 or len(past_queue) > 0 or p != None:
@@ -54,6 +58,7 @@ def rr(q, xlines):
 
         if p != None:
             p[1] = p[1] - 1
+            total_cpu_burst_time += 1
             # if current process has ended
             if p[1] == 0:
                 print(total_time - relative_time, p[2], str(relative_time) + "X")
@@ -67,7 +72,11 @@ def rr(q, xlines):
                 p = None
                 relative_time = 0
         # print(total_time, p, ready_queue, past_queue, job_queue)
-                
+
+    print("Total time elapsed:", str(total_time) + "ns")
+    print("Total CPU burst time:", str(total_cpu_burst_time) + "ns")
+    print("CPU Utilization:", str(total_cpu_burst_time / total_time * 100) + "%")
+    print("Throughput:", (total_processes / total_time), "processes/ns")
 
 rr(25, 4)
         
