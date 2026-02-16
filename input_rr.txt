@@ -39,4 +39,12 @@ Response times:
 Average response time: 3.75ns
 
 
-  
+Waiting Time = Turnaround Time - Burst Time
+Turnaround Time = Completion Time - Arrival Time
+Response Time = ProcessGetsCPU (first time) - Arrival Time
+
+Keep Track of
+Arrival Time  Check
+Original Burst Time Check
+Completion Time Check
+ProcessGetsCPU(first time)

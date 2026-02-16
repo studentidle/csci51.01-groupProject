@@ -9,10 +9,11 @@ def rr(q, xlines):
         arrival, burst, nice = map(int, input().split())
         # drop nice since we don't need it, I think,
         # replace with process order instead [1,x]
-        # p[arrival, burst, pid, total_waiting_time]
-        job_queue.append([arrival, burst, x + 1, 0])
+        # p[arrival, burst, pid, 
+        # original_burst, completion_time, first_response_time]
+        job_queue.append([arrival, burst, x + 1, burst, 0, 0])
     # sort into ascending by process order first
-    job_queue.sort(key = lambda x: x[2])
+    # job_queue.sort(key = lambda x: x[2])
     # and then by arrivals
     # thankfully, python sorts are safe
     job_queue.sort(key = lambda x: x[0])
@@ -48,6 +49,8 @@ def rr(q, xlines):
             if len(ready_queue) > 0:
                 # work on p
                 p = ready_queue.popleft()
+                # update ProcessGetsCPUFirstTime
+                p[5] = total_time
             # if ready empty
             else:
                 # past stuff queue not empty
@@ -65,6 +68,8 @@ def rr(q, xlines):
             if p[1] == 0:
                 print(total_time - relative_time, p[2], str(relative_time) + "X")
                 relative_time = 0
+                # update Completion Time
+                p[4] = total_time
                 completed_processes.append(p)
                 p = None
             # if time slice for the process has ended
@@ -80,8 +85,42 @@ def rr(q, xlines):
     print("Total CPU burst time:", str(total_cpu_burst_time) + "ns")
     print("CPU Utilization:", str(total_cpu_burst_time / total_time * 100) + "%")
     print("Throughput:", (total_processes / total_time), "processes/ns")
+    
+    completed_processes.sort(key= lambda x: x[2])
+    turnaround_times = [-1 for i in range(xlines)]
+    tat_average = 0
+    waiting_times = [-1 for i in range(xlines)]
+    wt_average = 0
+    response_times= [-1 for i in range(xlines)]
+    rt_average = 0
+    
 
-    # TODO: Implement the waiting time, turnaround times, response times tracking... somehow
+    for p_i in range(len(completed_processes)):
+        p = completed_processes[p_i]
+        turnaround_times[p_i] = p[4] - p[0]
+        waiting_times[p_i] = turnaround_times[p_i] - p[3]
+        response_times[p_i] = p[5] - p[0]
+    
+    print("Waiting times:")
+    for i in range(len(waiting_times)):
+        print(" Process", i+1, str(waiting_times[i]) + "ns")
+        wt_average += waiting_times[i]
+    print("Average waiting time:", str(wt_average / xlines) + "ns")
+    
+    print("Turnaround times:")
+    for i in range(len(turnaround_times)):
+        print(" Process", i+1, str(turnaround_times[i]) + "ns")
+        tat_average += turnaround_times[i]
+    print("Average turnaround time:", str(tat_average / xlines) + "ns")
+    
+    print("Response times:")
+    for i in range(len(response_times)):
+        print(" Process", i+1, str(response_times[i]) + "ns")
+        rt_average += response_times[i]
+    print("Average response time:", str(rt_average / xlines) + "ns")
+
+
+
 rr(25, 4)
         
 
