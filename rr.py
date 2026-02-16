@@ -9,7 +9,8 @@ def rr(q, xlines):
         arrival, burst, nice = map(int, input().split())
         # drop nice since we don't need it, I think,
         # replace with process order instead [1,x]
-        job_queue.append([arrival, burst, x + 1])
+        # p[arrival, burst, pid, total_waiting_time]
+        job_queue.append([arrival, burst, x + 1, 0])
     # sort into ascending by process order first
     job_queue.sort(key = lambda x: x[2])
     # and then by arrivals
@@ -27,7 +28,8 @@ def rr(q, xlines):
 
     # tracking stuff
     total_cpu_burst_time = 0
-    total_processes = len(job_queue);
+    total_processes = len(job_queue)
+    completed_processes = []
     #
 
     p = None
@@ -63,6 +65,7 @@ def rr(q, xlines):
             if p[1] == 0:
                 print(total_time - relative_time, p[2], str(relative_time) + "X")
                 relative_time = 0
+                completed_processes.append(p)
                 p = None
             # if time slice for the process has ended
             elif relative_time == q:
@@ -78,6 +81,7 @@ def rr(q, xlines):
     print("CPU Utilization:", str(total_cpu_burst_time / total_time * 100) + "%")
     print("Throughput:", (total_processes / total_time), "processes/ns")
 
+    # TODO: Implement the waiting time, turnaround times, response times tracking... somehow
 rr(25, 4)
         
 
