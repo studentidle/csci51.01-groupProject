@@ -6,7 +6,7 @@ int main()
     // cout << "Hello, World!" << endl;
     int tests;
     cin >> tests;
-    for (int t = 0; t < tests; t++)
+    for (int t = 1; t <= tests; t++)
     {
         int xlines, q;
         string process;
@@ -31,6 +31,7 @@ int main()
         if (process == "RR")
         {
             cin >> q;
+            cout << t;          // 3.a
             rr(q, xlines);
         }
     }
@@ -76,6 +77,8 @@ int p(int xlines)
 }
 int rr(int q, int xlines)
 {
+    // q is time slice
+    int current_time = 0; // in ns
     for (int x = 0; x < xlines; x++)
     {
         int arrival, burst, nice;
