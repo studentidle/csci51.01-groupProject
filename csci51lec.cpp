@@ -55,11 +55,102 @@ queue<Process> vectorToQueue(vector<Process>& v)
 
 int fcfs(int xlines)
 {
+    // read all the processes in
+    vector<Process> job_list(xlines);
+    int total_cpu_burst = 0;
+
     for (int x = 0; x < xlines; x++)
     {
         int arrival, burst, nice;
         cin >> arrival >> burst >> nice;
+        job_list[x].id = x + 1;
+        job_list[x].arrivalTime = arrival;
+        job_list[x].burstTime = burst;
+        job_list[x].remainingTime = nice;
+        job_list[x].priority = nice;
+
+        total_cpu_burst += burst;
     }
+
+    //Sort by arrival time so we can let them in order first come first out
+    sort(job_list.begin(), job_list.end(), ArrivalSorter);
+
+    int total_time = 0;
+    vector<GanttBlock> gantt;
+    vector<Process> completed = job_list;
+
+    //Process them sequentially
+    for (int i = 0; i < xlines; i++)
+    {
+        //If the CPU is idle, skip ahead to when the next process arrives
+        if (total_time < completed[i].arrivalTime)
+        {
+            total_time = completed[i].arrivalTime;
+        }
+
+        //Mark the first time the process gets the CPU as its response time
+        completed[i].response = total_time;
+
+        //Open and close a gantt block for this process
+        GanttBlock block;
+        block.startTime = total_time;
+        block.processId = completed[i].id;
+        block.duration = completed[i].burstTime;
+        block.isComplete = true;
+        gantt.push_back(block);
+
+        //Fast forward time by the burst amount
+        total_time += completed[i].burstTime;
+
+        //Record the completion time for stats later
+        completed[i].completionTime = total_time;
+        completed[i].turnaround = completed[i].completionTime - completed[i].arrivalTime;
+        completed[i].waiting = completed[i].turnaround - completed[i].burstTime;
+    }
+
+    //print gantt chart
+    cout << currentTest << " FCFS" << endl;
+    for (int i = 0; i < gantt.size(); i++)
+    {
+        cout << gantt[i].startTime << " " << gantt[i].processId << " " << gantt[i].duration << "X" << endl;
+    }
+
+    //print stats
+    cout << "Total time elapsed: " << total_time << "ns" << endl;
+    cout << "Total CPU burst time: " << total_cpu_burst << "ns" << endl;
+    cout << "CPU Utilization: " << (total_cpu_burst * 100 / total_time) << "%" << endl;
+    cout << "Throughput: " << (static_cast<float>(xlines) / total_time) << " processes/ns" << endl;
+
+    //restore original order so we can print stats in process number order
+    sort(completed.begin(), completed.end(), OrderSorter);
+
+    int wt_total = 0, tat_total = 0, rt_total = 0;
+
+    cout << "Waiting times:" << endl;
+    for (int i = 0; i < xlines; i++)
+    {
+        cout << " Process " << completed[i].id << ": " << completed[i].waiting << "ns" << endl;
+        wt_total += completed[i].waiting;
+    }
+    cout << "Average waiting time: " << static_cast<float>(wt_total) / xlines << "ns" << endl;
+    
+    cout << "Turnaround times:" << endl;
+    for (int i = 0; i < xlines; i++)
+    {
+        cout << " Process " << completed[i].id << ": " << completed[i].turnaround << "ns" << endl;
+        tat_total += completed[i].turnaround;
+    }
+    cout << "Average turnaround time: " << static_cast<float>(tat_total) / xlines << "ns" << endl;
+
+    cout << "Response times:" << endl;
+    for (int i = 0; i < xlines; i++)
+    {
+        int rt = completed[i].response - completed[i].arrivalTime;
+        cout << " Process " << completed[i].id << ": " << rt << "ns" << endl;
+        rt_total += rt;
+    }
+    cout << "Average response time: " << static_cast<float>(rt_total) / xlines << "ns" << endl;
+     
     return 0;
 }
 
@@ -642,7 +733,7 @@ int main(){
         cin >> xlines >> process;
         if (process == "FCFS")
         {
-            fcfs(xlines);
+            fcfs(xlines, t+1);
         }
         else if (process == "SJF")
         {
