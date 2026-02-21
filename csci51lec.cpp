@@ -53,7 +53,7 @@ queue<Process> vectorToQueue(vector<Process>& v)
     return q;
 }
 
-int fcfs(int xlines)
+int fcfs(int xlines, int currentTest)
 {
     // read all the processes in
     vector<Process> job_list(xlines);
