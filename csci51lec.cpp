@@ -320,15 +320,229 @@ int sjf(int xlines, int currentTest)
     return 0;
 }
 
-int srtf(int xlines)
+int srtf(int xlines, int currentTest)
 {
+    // read all the processes in
+    vector<Process> job_list(xlines);
     for (int x = 0; x < xlines; x++)
     {
         int arrival, burst, nice;
         cin >> arrival >> burst >> nice;
-    }
-    return 0;
 
+        job_list[x].id            = x + 1;
+        job_list[x].arrivalTime   = arrival;
+        job_list[x].burstTime     = burst;
+        job_list[x].remainingTime = burst;
+        job_list[x].priority      = nice;
+        job_list[x].response      = -1;   // -1 just means it hasn't
+        job_list[x].hasStarted    = false;
+    }
+    
+    // sort by arrival time so we can let them in one by one
+    sort(job_list.begin(), job_list.end(), ArrivalSorter);
+
+    int total_time      = 0;
+    int total_cpu_burst = 0;
+
+    vector<Process> ready;      // processes that showed up and are waiting
+    vector<Process> completed;  // processes that finished
+    queue<Process> job_queue = vectorToQueue(job_list);
+
+    vector<GanttBlock> gantt;
+    int gantt_start = 0;
+    int current_pid = -1;
+    int gantt_dur   = 0;
+
+    Process current;
+    current.id = -1;
+    bool working = false;  // is the cpu busy right now?
+
+    // simulate one tick at a time
+    while (!job_queue.empty() || !ready.empty() || working)
+    {
+        // let in any processes that have arrived by now
+        while (!job_queue.empty() && job_queue.front().arrivalTime <= total_time)
+        {
+            ready.push_back(job_queue.front());
+            job_queue.pop();
+        }
+
+        // find whoever has the shortest remaining time
+        int best_index = -1;
+        for (int i = 0; i < ready.size(); i++)
+        {
+            if (best_index == -1)
+            {
+                best_index = i;
+                continue;
+            }
+
+            // shorter remaining time? take it
+            if (ready[i].remainingTime < ready[best_index].remainingTime)
+            {
+                best_index = i;
+            }
+
+            // same remaining time? take the one that arrived earlier
+            else if (ready[i].remainingTime == ready[best_index].remainingTime)
+            {
+                if (ready[i].arrivalTime < ready[best_index].arrivalTime)
+                    best_index = i;
+                
+                // still tied? just go with the lower id
+                else if (ready[i].arrivalTime == ready[best_index].arrivalTime &&
+                         ready[i].id < ready[best_index].id)
+                    best_index = i;
+            }
+        }
+
+        // check if we need to swap out what's running
+        if (best_index != -1)
+        {
+            bool should_switch = false;
+
+            if (!working)
+            {
+                // cpu is free, just start the best one
+                should_switch = true;
+            }
+            else
+            {
+                // cpu is busy, check if the new candidate beats the current process
+                if (ready[best_index].remainingTime < current.remainingTime)
+                    should_switch = true;
+
+                else if (ready[best_index].remainingTime == current.remainingTime)
+                {
+                    if (ready[best_index].arrivalTime < current.arrivalTime)
+                        should_switch = true;
+
+                    else if (ready[best_index].arrivalTime == current.arrivalTime &&
+                             ready[best_index].id < current.id)
+                        should_switch = true;
+                }
+            }
+
+            if (should_switch)
+            {
+                // save the gantt block for whatever was running before
+                if (gantt_dur > 0 && current_pid != -1)
+                    gantt.push_back({gantt_start, current_pid, gantt_dur, false});
+
+                // shove current process back into ready so it can run later
+                if (working)
+                    ready.push_back(current);
+
+                // re-find best since we just added current back into ready
+                best_index = -1;
+                for (int i = 0; i < ready.size(); i++)
+                {
+                    if (best_index == -1) { best_index = i; continue; }
+                    
+                    if (ready[i].remainingTime < ready[best_index].remainingTime)
+                        best_index = i;
+                    
+                    else if (ready[i].remainingTime == ready[best_index].remainingTime)
+                    {
+                        if (ready[i].arrivalTime < ready[best_index].arrivalTime)
+                            best_index = i;
+
+                        else if (ready[i].arrivalTime == ready[best_index].arrivalTime &&
+                                 ready[i].id < ready[best_index].id)
+                            best_index = i;
+                    }
+                }
+
+                current = ready[best_index];
+                ready.erase(ready.begin() + best_index);
+
+                // log the first time it gets the cpu
+                if (current.response == -1)
+                    current.response = total_time;
+
+                // start a new gantt block
+                gantt_start = total_time;
+                current_pid = current.id;
+                gantt_dur   = 0;
+                working     = true;
+            }
+        }
+
+        // nothing to run, skip ahead
+        if (!working)
+        {
+            total_time++;
+            continue;
+        }
+
+        // run for one tick
+        total_time++;
+        gantt_dur++;
+        total_cpu_burst++;
+        current.remainingTime--;
+
+        // check if it just finished
+        if (current.remainingTime == 0)
+        {
+            current.completionTime = total_time;
+            gantt.push_back({gantt_start, current_pid, gantt_dur, true});
+
+            gantt_dur   = 0;
+            current_pid = -1;
+
+            completed.push_back(current);
+            working = false;
+        }
+    }
+
+    // print gantt chart
+    cout << currentTest << " SRTF" << endl;
+        for (int i = 0; i < gantt.size(); i++)
+        {
+            cout << gantt[i].startTime << " " << gantt[i].processId << " " << gantt[i].duration;
+            if (gantt[i].isComplete) cout << "X";
+            cout << endl;
+        }
+    
+    // print stats
+    cout << "Total time elapsed: " << total_time << "ns" << endl;
+    cout << "Total CPU burst time: " << total_cpu_burst << "ns" << endl;
+    cout << "CPU Utilization: " << (total_cpu_burst * 100 / total_time) << "%" << endl;
+    cout << "Throughput: " << (static_cast<float>(xlines) / total_time) << " processes/ns" << endl;
+
+    sort(completed.begin(), completed.end(), OrderSorter);
+    int wt_total = 0, tat_total = 0, rt_total = 0;
+
+    cout << "Waiting times:" << endl;
+        for (int i = 0; i < xlines; i++)
+        {
+            int tat = completed[i].completionTime - completed[i].arrivalTime;
+            int wt  = tat - completed[i].burstTime;
+
+            cout << " Process " << completed[i].id << ": " << wt << "ns" << endl;
+            wt_total += wt;
+        }
+
+    cout << "Average waiting time: " << static_cast<float>(wt_total) / xlines << "ns" << endl;
+    cout << "Turnaround times:" << endl;
+        for (int i = 0; i < xlines; i++)
+        {
+            int tat = completed[i].completionTime - completed[i].arrivalTime;
+
+            cout << " Process " << completed[i].id << ": " << tat << "ns" << endl;
+            tat_total += tat;
+        }
+    cout << "Average turnaround time: " << static_cast<float>(tat_total) / xlines << "ns" << endl;
+    cout << "Response times:" << endl;
+        for (int i = 0; i < xlines; i++)
+        {
+            int rt = completed[i].response - completed[i].arrivalTime;
+
+            cout << " Process " << completed[i].id << ": " << rt << "ns" << endl;
+            rt_total += rt;
+        }
+    cout << "Average response time: " << static_cast<float>(rt_total) / xlines << "ns" << endl;
+    return 0;
 }
 
 int p(int xlines, int currentTest)
@@ -741,7 +955,7 @@ int main(){
         }
         else if (process == "SRTF")
         {
-            srtf(xlines);
+            srtf(xlines, t+1);
         }
         else if (process == "P")
         {
