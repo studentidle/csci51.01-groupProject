@@ -9,7 +9,7 @@
 Total time elapsed: 130ns
 Total CPU burst time: 130ns
 CPU Utilization: 100%
-Throughput: 0.0307692 processes/ns
+Throughput: 0.0307692307692308 processes/ns
 Waiting times:
  Process 1: 0ns
  Process 2: 75ns
@@ -39,7 +39,7 @@ Average response time: 37.5ns
 Total time elapsed: 1040ns
 Total CPU burst time: 130ns
 CPU Utilization: 12.5%
-Throughput: 0.00384615 processes/ns
+Throughput: 0.00384615384615385 processes/ns
 Waiting times:
  Process 1: 0ns
  Process 2: 50ns
@@ -66,8 +66,8 @@ Average response time: 18.75ns
 5 5 1X
 Total time elapsed: 6ns
 Total CPU burst time: 5ns
-CPU Utilization: 83.3333%
-Throughput: 0.833333 processes/ns
+CPU Utilization: 83.3333333333333%
+Throughput: 0.833333333333333 processes/ns
 Waiting times:
  Process 1: 0ns
  Process 2: 1ns
