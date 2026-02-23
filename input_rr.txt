@@ -25,7 +25,6 @@
 55 4 15X
 70 2 20X
 90 3 10X
-
 Total time elapsed: 100ns
 Total CPU burst time: 100ns
 CPU Utilization: 100%

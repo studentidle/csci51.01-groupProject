@@ -842,6 +842,7 @@ int rr(int q, size_t xlines)
                 // update process first cpu response
                 p.response = total_time;
                 working = true;
+                relative_time = 0;
             }
             // if nothing in ready
             else
@@ -852,6 +853,7 @@ int rr(int q, size_t xlines)
                     p = past_queue.front();
                     past_queue.pop();
                     working = true;
+                    relative_time = 0;
                 }
             }
         }

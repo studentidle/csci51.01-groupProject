@@ -1,0 +1,116 @@
+0 1 25X
+25 2 25
+50 3 25
+75 4 25
+100 2 5X
+105 3 10X
+115 4 15X
+Total time elapsed: 130ns
+Total CPU burst time: 130ns
+CPU Utilization: 100%
+Throughput: 0.0307692 processes/ns
+Waiting times:
+ Process: 1 0ns
+ Process: 2 75ns
+ Process: 3 80ns
+ Process: 4 90ns
+Average waiting time: 61.25ns
+Turnaround times:
+ Process: 1 25ns
+ Process: 2 105ns
+ Process: 3 115ns
+ Process: 4 130ns
+Average turnaround time: 93.75ns
+Response times:
+ Process: 1 0ns
+ Process: 2 25ns
+ Process: 3 50ns
+ Process: 4 75ns
+Average response time: 37.5ns
+0 1 25X
+25 2 25
+50 3 25
+75 2 5X
+80 3 10X
+1000 4 25
+1025 4 15X
+Total time elapsed: 1040ns
+Total CPU burst time: 130ns
+CPU Utilization: 12.5%
+Throughput: 0.00384615 processes/ns
+Waiting times:
+ Process: 1 0ns
+ Process: 2 50ns
+ Process: 3 55ns
+ Process: 4 0ns
+Average waiting time: 26.25ns
+Turnaround times:
+ Process: 1 25ns
+ Process: 2 80ns
+ Process: 3 90ns
+ Process: 4 40ns
+Average turnaround time: 58.75ns
+Response times:
+ Process: 1 0ns
+ Process: 2 25ns
+ Process: 3 50ns
+ Process: 4 0ns
+Average response time: 18.75ns
+1 1 1X
+2 2 1X
+3 3 1X
+4 4 1X
+5 5 1X
+Total time elapsed: 6ns
+Total CPU burst time: 5ns
+CPU Utilization: 83.3333%
+Throughput: 0.833333 processes/ns
+Waiting times:
+ Process: 1 0ns
+ Process: 2 1ns
+ Process: 3 2ns
+ Process: 4 3ns
+ Process: 5 4ns
+Average waiting time: 2ns
+Turnaround times:
+ Process: 1 1ns
+ Process: 2 2ns
+ Process: 3 3ns
+ Process: 4 4ns
+ Process: 5 5ns
+Average turnaround time: 3ns
+Response times:
+ Process: 1 0ns
+ Process: 2 1ns
+ Process: 3 2ns
+ Process: 4 3ns
+ Process: 5 4ns
+Average response time: 2ns
+0 1 25
+25 2 25
+50 1 5X
+55 4 15X
+70 2 20X
+90 3 10X
+Total time elapsed: 100ns
+Total CPU burst time: 100ns
+CPU Utilization: 100%
+Throughput: 0.04 processes/ns
+Waiting times:
+ Process: 1 25ns
+ Process: 2 20ns
+ Process: 3 15ns
+ Process: 4 0ns
+Average waiting time: 15ns
+Turnaround times:
+ Process: 1 55ns
+ Process: 2 65ns
+ Process: 3 25ns
+ Process: 4 15ns
+Average turnaround time: 40ns
+Response times:
+ Process: 1 0ns
+ Process: 2 0ns
+ Process: 3 15ns
+ Process: 4 0ns
+Average response time: 3.75ns
