@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <queue>
+#include <iomanip>
 
 using namespace std;
 
@@ -119,7 +120,7 @@ int fcfs(int xlines, int currentTest)
     cout << "Total time elapsed: " << total_time << "ns" << endl;
     cout << "Total CPU burst time: " << total_cpu_burst << "ns" << endl;
     cout << "CPU Utilization: " << (total_cpu_burst * 100 / total_time) << "%" << endl;
-    cout << "Throughput: " << (static_cast<float>(xlines) / total_time) << " processes/ns" << endl;
+    cout << "Throughput: " << setprecision(15) << (static_cast<double>(xlines) / total_time) << " processes/ns" << endl;
 
     //restore original order so we can print stats in process number order
     sort(completed.begin(), completed.end(), OrderSorter);
@@ -280,7 +281,7 @@ int sjf(int xlines, int currentTest)
     cout << "Total time elapsed: " << total_time << "ns" << endl;
     cout << "Total CPU burst time: " << total_cpu_burst << "ns" << endl;
     cout << "CPU Utilization: " << (total_cpu_burst * 100 / total_time) << "%" << endl;
-    cout << "Throughput: " << (static_cast<float>(xlines) / total_time) << " processes/ns" << endl;
+    cout << "Throughput: " << setprecision(15) << (static_cast<double>(xlines) / total_time) << " processes/ns" << endl;
 
     sort(completed.begin(), completed.end(), OrderSorter);
 
@@ -508,7 +509,7 @@ int srtf(int xlines, int currentTest)
     cout << "Total time elapsed: " << total_time << "ns" << endl;
     cout << "Total CPU burst time: " << total_cpu_burst << "ns" << endl;
     cout << "CPU Utilization: " << (total_cpu_burst * 100 / total_time) << "%" << endl;
-    cout << "Throughput: " << (static_cast<float>(xlines) / total_time) << " processes/ns" << endl;
+    cout << "Throughput: " << setprecision(15) << (static_cast<double>(xlines) / total_time) << " processes/ns" << endl;
 
     sort(completed.begin(), completed.end(), OrderSorter);
     int wt_total = 0, tat_total = 0, rt_total = 0;
@@ -733,7 +734,7 @@ int p(int xlines, int currentTest)
     cout << "Total time elapsed: " << total_time << "ns" << endl;
     cout << "Total CPU burst time: " << total_cpu_burst << "ns" << endl;
     cout << "CPU Utilization: " << (total_cpu_burst * 100 / total_time) << "%" << endl;
-    cout << "Throughput: " << (static_cast<float>(xlines) / total_time) << " processes/ns" << endl;
+    cout << "Throughput: " << setprecision(15) << (static_cast<double>(xlines) / total_time) << " processes/ns" << endl;
 
     sort(completed.begin(), completed.end(), OrderSorter);
 
@@ -774,7 +775,7 @@ int p(int xlines, int currentTest)
 }
 
 
-int rr(int q, size_t xlines)
+int rr(int q, size_t xlines, int currentTest)
 {
     // Process job_list[xlines];
     vector<Process> job_list(xlines);
@@ -812,6 +813,8 @@ int rr(int q, size_t xlines)
     Process p;
     bool working = false;
     // While we still have unfinished processes...
+
+    cout << currentTest << " RR" << endl;
     while (!ready_queue.empty() || !job_queue.empty() || !past_queue.empty() || working) 
     {
         // if job arrives, add it to ready queue
@@ -889,7 +892,7 @@ int rr(int q, size_t xlines)
     cout << "Total time elapsed: " << total_time << "ns" << endl;
     cout << "Total CPU burst time: " << total_cpu_burst_time << "ns" << endl;
     cout << "CPU Utilization: " << (total_cpu_burst_time / total_time * 100) << "%" << endl;
-    cout << "Throughput: " << ( static_cast<float>(total_processes) / total_time) << "processes/ns" << endl;
+    cout << "Throughput: " << setprecision(15) << ( static_cast<double>(total_processes) / total_time) << " processes/ns" << endl;
 
     sort(completed_processes.begin(), completed_processes.end(), OrderSorter);
     
@@ -912,7 +915,7 @@ int rr(int q, size_t xlines)
     cout << "Waiting times:" << endl;
     for (int i = 0; i < xlines; i++)
     {
-        cout << " Process " << i + 1 << " " << waiting_times[i] << "ns" << endl;
+        cout << " Process " << i + 1 << ": " << waiting_times[i] << "ns" << endl;
         wt_total += waiting_times[i];
     }
     cout << "Average waiting time: " << static_cast<float>(wt_total) / xlines << "ns" << endl;
@@ -920,15 +923,15 @@ int rr(int q, size_t xlines)
     cout << "Turnaround times:" << endl;
     for (int i = 0; i < xlines; i++)
     {
-        cout << " Process " << i + 1 << " " << turnaround_times[i] << "ns" << endl;
+        cout << " Process " << i + 1 << ": " << turnaround_times[i] << "ns" << endl;
         tat_total += turnaround_times[i];
     }
-    cout << "Average waiting time: " << static_cast<float>(tat_total) / xlines << "ns" << endl;
+    cout << "Average turnaround time: " << static_cast<float>(tat_total) / xlines << "ns" << endl;
 
     cout << "Response times:" << endl;
     for (int i = 0; i < xlines; i++)
     {
-        cout << " Process " << i + 1 << " " <<response_times[i] << "ns" << endl;
+        cout << " Process " << i + 1 << ": " <<response_times[i] << "ns" << endl;
         rt_total += response_times[i];
     }
     cout << "Average response time: " << static_cast<float>(rt_total) / xlines << "ns" << endl;
@@ -965,7 +968,7 @@ int main(){
         if (process == "RR")
         {
             cin >> q;
-            rr(q, xlines);
+            rr(q, xlines, t+1);
         }
     }
     return 0;

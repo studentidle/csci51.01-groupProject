@@ -1,29 +1,48 @@
-1 RR
-0 1 25
-25 2 25
-50 1 5X
-55 4 15X
-70 2 20X
-90 3 10X
-Total time elapsed: 100ns
-Total CPU burst time: 100ns
+1 SRTF
+0 1 20
+20 3 3X
+23 1 17
+40 2 2X
+42 1 13X
+55 4 55X
+Total time elapsed: 110ns
+Total CPU burst time: 110ns
 CPU Utilization: 100%
-Throughput: 0.04 processes/ns
+Throughput: 0.0363636363636364 processes/ns
 Waiting times:
- Process 1: 25ns
- Process 2: 20ns
- Process 3: 15ns
- Process 4: 0ns
-Average waiting time: 15ns
+ Process 1: 5ns
+ Process 2: 0ns
+ Process 3: 0ns
+ Process 4: 25ns
+Average waiting time: 7.5ns
 Turnaround times:
  Process 1: 55ns
- Process 2: 65ns
- Process 3: 25ns
- Process 4: 15ns
+ Process 2: 2ns
+ Process 3: 3ns
+ Process 4: 80ns
+Average turnaround time: 35ns
+Response times:
+ Process 1: 0ns
+ Process 2: 0ns
+ Process 3: 0ns
+ Process 4: 25ns
+Average response time: 6.25ns
+2 FCFS
+10 2 70X
+100 1 10X
+Total time elapsed: 110ns
+Total CPU burst time: 80ns
+CPU Utilization: 72%
+Throughput: 0.0181818181818182 processes/ns
+Waiting times:
+ Process 1: 0ns
+ Process 2: 0ns
+Average waiting time: 0ns
+Turnaround times:
+ Process 1: 10ns
+ Process 2: 70ns
 Average turnaround time: 40ns
 Response times:
  Process 1: 0ns
  Process 2: 0ns
- Process 3: 15ns
- Process 4: 0ns
-Average response time: 3.75ns
+Average response time: 0ns
