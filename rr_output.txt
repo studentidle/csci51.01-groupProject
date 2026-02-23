@@ -1,3 +1,4 @@
+1 RR
 0 1 25X
 25 2 25
 50 3 25
@@ -27,6 +28,7 @@ Response times:
  Process 3: 50ns
  Process 4: 75ns
 Average response time: 37.5ns
+2 RR
 0 1 25X
 25 2 25
 50 3 25
@@ -56,6 +58,7 @@ Response times:
  Process 3: 50ns
  Process 4: 0ns
 Average response time: 18.75ns
+3 RR
 1 1 1X
 2 2 1X
 3 3 1X
@@ -86,6 +89,7 @@ Response times:
  Process 4: 3ns
  Process 5: 4ns
 Average response time: 2ns
+4 RR
 0 1 25
 25 2 25
 50 1 5X
@@ -114,6 +118,7 @@ Response times:
  Process 3: 15ns
  Process 4: 0ns
 Average response time: 3.75ns
+5 RR
 0 1 10
 10 2 10
 20 4 10

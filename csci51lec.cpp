@@ -774,8 +774,9 @@ int p(int xlines, int currentTest)
 }
 
 
-int rr(int q, size_t xlines)
+int rr(int q, size_t xlines, int t_i)
 {
+    cout << t_i << " RR" << endl;
     // Process job_list[xlines];
     vector<Process> job_list(xlines);
     for (int x = 0; x < xlines; x++)
@@ -967,7 +968,7 @@ int main(){
         if (process == "RR")
         {
             cin >> q;
-            rr(q, xlines);
+            rr(q, xlines, t+1);
         }
     }
     return 0;

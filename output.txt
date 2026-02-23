@@ -216,6 +216,7 @@ Response times:
  Process 5: 10ns
  Process 6: 0ns
 Average response time: 11.6667ns
+9 RR
 0 2 10
 10 2 10
 20 2 10
@@ -258,6 +259,7 @@ Response times:
  Process 3: 0ns
  Process 4: 0ns
 Average response time: 0ns
+10 RR
 0 3 25
 25 2 15X
 40 1 25
