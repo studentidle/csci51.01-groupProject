@@ -914,7 +914,7 @@ int rr(int q, size_t xlines)
     cout << "Waiting times:" << endl;
     for (int i = 0; i < xlines; i++)
     {
-        cout << " Process: " << i + 1 << " " << waiting_times[i] << "ns" << endl;
+        cout << " Process " << i + 1 << ": " << waiting_times[i] << "ns" << endl;
         wt_total += waiting_times[i];
     }
     cout << "Average waiting time: " << static_cast<float>(wt_total) / xlines << "ns" << endl;
@@ -922,7 +922,7 @@ int rr(int q, size_t xlines)
     cout << "Turnaround times:" << endl;
     for (int i = 0; i < xlines; i++)
     {
-        cout << " Process: " << i + 1 << " " << turnaround_times[i] << "ns" << endl;
+        cout << " Process " << i + 1 << ": " << turnaround_times[i] << "ns" << endl;
         tat_total += turnaround_times[i];
     }
     cout << "Average turnaround time: " << static_cast<float>(tat_total) / xlines << "ns" << endl;
@@ -930,7 +930,7 @@ int rr(int q, size_t xlines)
     cout << "Response times:" << endl;
     for (int i = 0; i < xlines; i++)
     {
-        cout << " Process: " << i + 1 << " " <<response_times[i] << "ns" << endl;
+        cout << " Process " << i + 1 << ": " <<response_times[i] << "ns" << endl;
         rt_total += response_times[i];
     }
     cout << "Average response time: " << static_cast<float>(rt_total) / xlines << "ns" << endl;
