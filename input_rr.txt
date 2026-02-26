@@ -1,3 +1,23 @@
+1
+4 RR 25
+0 30 3
+25 45 4
+75 10 1
+55 15 5
+
+1
+8 RR 10
+0 100 2
+10 30 4
+20 10 5
+15 40 1
+55 80 3
+60 20 1
+70 30 2
+25 10 10
+
+
+// GANTT
 1 RR
 0 1 25
 25 2 25
@@ -27,3 +47,14 @@ Response times:
  Process 3: 15ns
  Process 4: 0ns
 Average response time: 3.75ns
+
+
+Waiting Time = Turnaround Time - Burst Time
+Turnaround Time = Completion Time - Arrival Time
+Response Time = ProcessGetsCPU (first time) - Arrival Time
+
+Keep Track of
+Arrival Time  Check
+Original Burst Time Check
+Completion Time Check
+ProcessGetsCPU(first time)
